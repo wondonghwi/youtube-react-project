@@ -32,7 +32,7 @@ export default class Youtube {
       },
     });
 
-    const convertedData: VideoItem[] = response.data.items.map((item: any) => {
+    const convertedData: VideoItem[] = response.data.items.map((item) => {
       return {
         ...item,
         id: item.id.videoId,
