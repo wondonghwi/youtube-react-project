@@ -1,9 +1,10 @@
 import { ReactNode, createContext, useContext } from 'react';
-import Youtube from '../api/youtube';
 import YoutubeClient from '../api/youtubeClient';
+import FakeYoutubeClient from '../api/fakeYoutubeClient';
+import { IYoutubeService, Youtube } from '../api/youtube';
 
 interface YoutubeApiContextType {
-  youtube?: Youtube;
+  youtube?: IYoutubeService;
 }
 
 // const client = new FakeYoutubeClient();

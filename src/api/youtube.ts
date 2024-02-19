@@ -2,6 +2,11 @@ import { AxiosResponse } from 'axios';
 import { PopularListResponse, VideoItem } from '../interfaces/popular';
 import { SearchListResponse } from '../interfaces/search';
 
+export interface IYoutubeService {
+  search(keyword?: string): Promise<VideoItem[]>;
+  videos?: () => Promise<VideoItem[]>;
+}
+
 interface IYoutubeClient {
   search: (options: {
     params: { part: string; type: string; q?: string; maxResults: number };
@@ -11,7 +16,7 @@ interface IYoutubeClient {
   }) => Promise<AxiosResponse<PopularListResponse>>;
 }
 
-export default class Youtube {
+export class Youtube implements IYoutubeService {
   private apiClient: IYoutubeClient;
 
   constructor(apiClient: IYoutubeClient) {
