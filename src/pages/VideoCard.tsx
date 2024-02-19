@@ -5,5 +5,5 @@ interface VideoCardProps {
 }
 
 export default function VideoCard({ video }: VideoCardProps) {
-  return <div>{video.snippet.title}</div>;
+  return <li>{video.snippet.title}</li>;
 }
