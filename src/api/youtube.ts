@@ -1,22 +1,29 @@
-import axios, { AxiosInstance } from 'axios';
-import { SearchListResponse } from '../interfaces/search';
+import { AxiosResponse } from 'axios';
 import { PopularListResponse, VideoItem } from '../interfaces/popular';
+import { SearchListResponse } from '../interfaces/search';
+
+interface IYoutubeClient {
+  search: (options: {
+    params: { part: string; type: string; q?: string; maxResults: number };
+  }) => Promise<AxiosResponse<SearchListResponse>>;
+  videos: (options: {
+    params: { part: string; chart: string; maxResults: number };
+  }) => Promise<AxiosResponse<PopularListResponse>>;
+}
 
 export default class Youtube {
-  private httpClient: AxiosInstance;
+  private apiClient: IYoutubeClient;
 
-  constructor() {
-    this.httpClient = axios.create({
-      baseURL: 'https://www.googleapis.com/youtube/v3/',
-      params: { key: process.env.REACT_APP_YOUTUBE_API_KEY },
-    });
+  constructor(apiClient: IYoutubeClient) {
+    this.apiClient = apiClient;
   }
+
   async search(keyword?: string): Promise<VideoItem[]> {
     return keyword ? this.#searchByKeyword(keyword) : this.#mostPopular();
   }
 
   async #searchByKeyword(keyword?: string): Promise<VideoItem[]> {
-    const response = await this.httpClient.get<SearchListResponse>('search', {
+    const response = await this.apiClient.search({
       params: {
         part: 'snippet',
         type: 'video',
@@ -25,7 +32,7 @@ export default class Youtube {
       },
     });
 
-    const convertedData: VideoItem[] = response.data.items.map((item) => {
+    const convertedData: VideoItem[] = response.data.items.map((item: any) => {
       return {
         ...item,
         id: item.id.videoId,
@@ -35,7 +42,7 @@ export default class Youtube {
   }
 
   async #mostPopular(): Promise<VideoItem[]> {
-    const response = await this.httpClient.get<PopularListResponse>('videos', {
+    const response = await this.apiClient.videos({
       params: {
         part: 'snippet',
         chart: 'mostPopular',

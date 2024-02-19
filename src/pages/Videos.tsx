@@ -1,17 +1,22 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import FakeYoutube from '../api/fakeYoutube';
 import { VideoItem } from '../interfaces/popular';
 import VideoCard from './VideoCard';
-import Youtube from '../api/youtube';
+import { useYoutubeApi } from '../context/YoutubeApiContext';
 
 function Videos() {
   const { keyword } = useParams();
-  const youtube = new Youtube();
+  const { youtube } = useYoutubeApi();
 
   const queryKey = ['videos', keyword];
 
-  const queryFn = () => youtube.search(keyword);
+  const queryFn = () => {
+    if (!youtube) {
+      return Promise.reject(new Error('YouTube API client is not available'));
+    }
+
+    return youtube.search(keyword);
+  };
 
   const {
     isLoading,
