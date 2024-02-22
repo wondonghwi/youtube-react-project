@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsSearch, BsYoutube } from 'react-icons/bs';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -10,6 +9,7 @@ interface FormValues {
 function SearchHeader() {
   const navigate = useNavigate();
   const { keyword } = useParams<{ keyword: string }>();
+
   const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       searchText: keyword || '',
@@ -17,8 +17,8 @@ function SearchHeader() {
   });
 
   const onSubmit = (data: FormValues) => {
-    console.log(data.searchText);
-    navigate(`/videos/${data.searchText}`);
+    const encodedSearchText = encodeURIComponent(data.searchText);
+    navigate(`/videos/${encodedSearchText}`);
   };
 
   return (
