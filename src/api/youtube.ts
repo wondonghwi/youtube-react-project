@@ -24,10 +24,10 @@ export class Youtube implements IYoutubeService {
   }
 
   async search(keyword?: string): Promise<VideoItem[]> {
-    return keyword ? this.#searchByKeyword(keyword) : this.#mostPopular();
+    return keyword ? this.searchByKeyword(keyword) : this.mostPopular();
   }
 
-  async #searchByKeyword(keyword?: string): Promise<VideoItem[]> {
+  private async searchByKeyword(keyword?: string): Promise<VideoItem[]> {
     const response = await this.apiClient.search({
       params: {
         part: 'snippet',
@@ -46,7 +46,7 @@ export class Youtube implements IYoutubeService {
     return convertedData;
   }
 
-  async #mostPopular(): Promise<VideoItem[]> {
+  private async mostPopular(): Promise<VideoItem[]> {
     const response = await this.apiClient.videos({
       params: {
         part: 'snippet',

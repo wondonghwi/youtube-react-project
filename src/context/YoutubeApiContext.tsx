@@ -7,6 +7,7 @@ interface YoutubeApiContextType {
   youtube?: IYoutubeService;
 }
 
+// NOTE : Mocking the YoutubeClient
 // const client = new FakeYoutubeClient();
 const client = new YoutubeClient();
 const youtube = new Youtube(client);
