@@ -34,11 +34,14 @@ function Videos() {
   return (
     <>
       <div>Videos {keyword ? `🔍${keyword}` : '🔥'}</div>
-      {videos.map((video) => (
-        <ul key={video.id}>
-          <VideoCard video={video} />
-        </ul>
-      ))}
+      <ul>
+        {videos.map((video) => (
+          <VideoCard
+            video={video}
+            key={video.id}
+          />
+        ))}
+      </ul>
     </>
   );
 }

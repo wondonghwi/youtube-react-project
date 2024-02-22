@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { BsSearch, BsYoutube } from 'react-icons/bs';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
+interface FormValues {
+  searchText: string;
+}
+
 function SearchHeader() {
-  const [text, setText] = useState<string>('');
+  const navigate = useNavigate();
+  const { keyword } = useParams<{ keyword: string }>();
+  const { register, handleSubmit } = useForm<FormValues>({
+    defaultValues: {
+      searchText: keyword || '',
+    },
+  });
 
-  const nevigate = useNavigate();
-  const { keyword } = useParams();
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
+  const onSubmit = (data: FormValues) => {
+    console.log(data.searchText);
+    navigate(`/videos/${data.searchText}`);
   };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    nevigate(`/videos/${text}`);
-  };
-
-  useEffect(() => {
-    setText(keyword || '');
-  }, [keyword]);
 
   return (
     <header className='w-full flex p-4 text-2xl border-b border-zinc-600 mb-4'>
@@ -31,13 +31,12 @@ function SearchHeader() {
       </Link>
       <form
         className='w-full flex justify-center'
-        onSubmit={handleSubmit}>
+        onSubmit={handleSubmit(onSubmit)}>
         <input
+          {...register('searchText')}
           className='w-7/12 p-2 outline-none bg-black text-gray-50'
           type='text'
           placeholder='Search...'
-          onChange={onChange}
-          value={text}
         />
         <button className='bg-zinc-600 p-4'>
           <BsSearch />
