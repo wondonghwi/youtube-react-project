@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { VideoItem } from '../interfaces/popular';
 import { formatAgo } from '../util/date';
 
@@ -7,10 +8,14 @@ interface VideoCardProps {
 
 export default function VideoCard({ video }: VideoCardProps) {
   const { title, thumbnails, channelTitle, publishedAt } = video.snippet;
+  const navigate = useNavigate();
 
   return (
     <>
-      <li>
+      <li
+        onClick={() => {
+          navigate(`/videos/watch/${video.id}`, { state: { video } });
+        }}>
         <img
           className='w-full'
           src={thumbnails.medium.url}
