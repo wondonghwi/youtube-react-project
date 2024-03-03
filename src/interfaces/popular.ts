@@ -41,11 +41,6 @@ interface ThumbnailDetail {
   height: number;
 }
 
-interface Localized {
-  title: string;
-  description: string;
-}
-
 interface PageInfo {
   totalResults: number;
   resultsPerPage: number;

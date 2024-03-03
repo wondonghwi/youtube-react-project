@@ -1,15 +1,13 @@
 import { ReactNode, createContext, useContext } from 'react';
-import YoutubeClient from '../api/youtubeClient';
-import FakeYoutubeClient from '../api/fakeYoutubeClient';
 import { IYoutubeService, Youtube } from '../api/youtube';
+import FakeYoutubeClient from '../api/fakeYoutubeClient';
 
 interface YoutubeApiContextType {
   youtube?: IYoutubeService;
 }
 
-// NOTE : Mocking the YoutubeClient
-// const client = new FakeYoutubeClient();
-const client = new YoutubeClient();
+const client = new FakeYoutubeClient();
+// const client = new YoutubeClient();
 const youtube = new Youtube(client);
 
 export const YoutubeApiContext = createContext<YoutubeApiContextType>({});

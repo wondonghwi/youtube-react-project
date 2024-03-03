@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { SearchListResponse } from '../interfaces/search';
 import { PopularListResponse } from '../interfaces/popular';
+import { ChannelListResponse } from '../interfaces/channels';
 
 export default class YoutubeClient {
   private httpClient: AxiosInstance;
@@ -18,4 +19,10 @@ export default class YoutubeClient {
   async videos(params: object) {
     return this.httpClient.get<PopularListResponse>('videos', params);
   }
+
+  async channelImageUrl(params: object) {
+    return this.httpClient.get<ChannelListResponse>('channels', params);
+  }
+
+  // NOTE: youtube api에서 실제 api의 related api 연결중단
 }
